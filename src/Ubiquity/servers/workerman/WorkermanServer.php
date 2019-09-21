@@ -22,6 +22,8 @@ class WorkermanServer {
 	private $options;
 	
 	private $events=[];
+	
+	private $wCount;
 
 	/**
 	 *
@@ -99,9 +101,11 @@ class WorkermanServer {
 
 	public function run($host, $port, $options = null) {
 		$this->server=new Worker("http://$host:$port",$options);
+		$this->server->count=$this->wCount??4;
 		$this->server->onMessage(static function($connection,$datas){
 			$this->handle($connection,$datas);
 		});
+		Worker::runAll();
 	}
 	
 
@@ -122,5 +126,17 @@ class WorkermanServer {
 		\Ubiquity\controllers\Startup::forward($request->get['c']);
 		$connection->send(\ob_get_clean());
 	}
+	/**
+	 * Sets the worker count
+	 * @param int $wCount
+	 */
+	public function setWCount($wCount) {
+		$this->wCount = $wCount;
+	}
+	
+	public function setDefaultCount(){
+		$this->wCount= (int) \shell_exec('nproc') ??4;
+	}
+
 }
 
