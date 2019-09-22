@@ -4,6 +4,7 @@ namespace Ubiquity\servers\workerman;
 use Workerman\Protocols\Http;
 use Workerman\Protocols\HttpCache;
 use Workerman\Worker;
+use Workerman\Connection\ConnectionInterface;
 use Ubiquity\utils\http\foundation\WorkermanHttp;
 
 class WorkermanServer {
