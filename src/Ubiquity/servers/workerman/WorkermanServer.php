@@ -7,6 +7,13 @@ use Workerman\Worker;
 use Workerman\Connection\ConnectionInterface;
 use Ubiquity\utils\http\foundation\WorkermanHttp;
 
+/**
+ * Ubiquity\servers\workerman$WorkermanServer
+ * This class is part of Ubiquity
+ * @author jcheron <myaddressmail@gmail.com>
+ * @version 1.0.0
+ *
+ */
 class WorkermanServer {
 
 	/**
@@ -80,10 +87,11 @@ class WorkermanServer {
 		$this->basedir = $basedir;
 		$this->httpInstance=new WorkermanHttp();
 		\Ubiquity\controllers\Startup::init($config);
+		\Ubiquity\controllers\Startup::setHttpInstance($this->httpInstance);
 	}
 
 	/**
-	 * Get swoole configuration option value.
+	 * Get Workerman configuration option value.
 	 *
 	 * @param string $key
 	 * @return mixed
@@ -125,7 +133,6 @@ class WorkermanServer {
 
 		$this->httpInstance->setDatas($datas);
 		\ob_start();
-		\Ubiquity\controllers\Startup::setHttpInstance($this->httpInstance);
 		\Ubiquity\controllers\Startup::forward($_GET['c']);
 		if($_SERVER['HTTP_CONNECTION']=='Keep-Alive'){
 			$connection->send(\ob_get_clean());
