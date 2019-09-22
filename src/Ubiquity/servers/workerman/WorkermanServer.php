@@ -151,6 +151,10 @@ class WorkermanServer {
 	public function setDefaultCount(){
 		$this->wCount= (int) \shell_exec('nproc') ??4;
 	}
+	
+	public function daemonize($value=true){
+		Worker::$daemonize=$value;
+	}
 
 }
 
