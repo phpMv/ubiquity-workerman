@@ -2,6 +2,7 @@
 namespace Ubiquity\utils\http\foundation;
 
 use Workerman\Protocols\Http;
+use Workerman\Protocols\HttpCache;
 
 /**
  * Http instance for Swoole.
@@ -52,7 +53,15 @@ class WorkermanHttp extends AbstractHttp {
 	public function setResponseCode($responseCode) {
 		if ($responseCode != null) {
 			$this->responseCode = $responseCode;
+			if (PHP_SAPI != 'cli') {
+				return \http_response_code($responseCode);
+			}
+			if (isset(HttpCache::$codes[$responseCode])) {
+				HttpCache::$header['Http-Code'] = "HTTP/1.1 $responseCode " . HttpCache::$codes[$responseCode];
+				return true;
+			}
 		}
+		return false;
 	}
 
 	public function headersSent(string &$file = null, int &$line = null) {

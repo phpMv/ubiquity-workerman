@@ -123,11 +123,16 @@ class WorkermanServer {
 		$_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
 		$_GET['c'] = '';
 		$uri = \ltrim(\urldecode(\parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
-		if ($uri == null || ! \file_exists($this->basedir . '/../' . $uri)) {
+		if ($uri == null || ! ($fe=\file_exists($this->basedir . '/../' . $uri))) {
 			$_GET['c'] = $uri;
 		} else {
-			Http::header('Content-Type', HttpCache::$header['accept'] ?? 'text/html; charset=utf-8');
-			$connection->send(\file_get_contents($this->basedir . '/../' . $uri));
+			if($fe){
+				Http::header('Content-Type', HttpCache::$header['accept'] ?? 'text/html; charset=utf-8');
+				$connection->send(\file_get_contents($this->basedir . '/../' . $uri));
+			}else{
+				Http::header('Content-Type', HttpCache::$header['accept'] ?? 'text/html; charset=utf-8',404);
+				$connection->send($uri.' not found!');
+			}
 			return;
 		}
 
