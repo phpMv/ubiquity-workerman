@@ -124,7 +124,7 @@ class WorkermanServer {
 		Http::header('Date: '.gmdate('D, d M Y H:i:s').' GMT');
 		$_GET['c'] = '';
 		$uri = \ltrim(\urldecode(\parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
-		if (($uri!='favicon.ico') && ($uri == null || ! ($fe=\file_exists($this->basedir . '/../' . $uri)))) {
+		if (($uri == null || ! ($fe=\file_exists($this->basedir . '/../' . $uri))) && ($uri!='favicon.ico')) {
 			$_GET['c'] = $uri;
 		} else {
 			if($fe){
