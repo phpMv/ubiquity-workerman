@@ -105,7 +105,7 @@ class WorkermanServer {
 		$this->setOptions($options);
 		$this->server=new Worker("http://$host:$port",$this->options);
 		$this->server->count=$this->wCount??4;
-		$this->server->onMessage =function($connection,$datas){
+		$this->server->onMessage =static function($connection,$datas){
 			$this->handle($connection,$datas);
 		};
 		Worker::runAll();
@@ -114,10 +114,10 @@ class WorkermanServer {
 
 	protected function handle(ConnectionInterface $connection,$datas) {
 		$_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
-		$request->get['c'] = '';
+		$_GET['c'] = '';
 		$uri = \ltrim(\urldecode(\parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
 		if ($uri == null || ! \file_exists($this->basedir . '/../' . $uri)) {
-			$request->get['c'] = $uri;
+			$_GET['c'] = $uri;
 		} else {
 			Http::header('Content-Type', HttpCache::$header['accept'] ?? 'text/html; charset=utf-8');
 			$connection->send(\file_get_contents($this->basedir . '/../' . $uri));
@@ -127,7 +127,7 @@ class WorkermanServer {
 		$this->httpInstance->setDatas($datas);
 		\ob_start();
 		\Ubiquity\controllers\Startup::setHttpInstance($this->httpInstance);
-		\Ubiquity\controllers\Startup::forward($request->get['c']);
+		\Ubiquity\controllers\Startup::forward($_GET['c']);
 		if($_SERVER['HTTP_CONNECTION']=='Keep-Alive'){
 			$connection->send(\ob_get_clean());
 		}else{
