@@ -97,11 +97,13 @@ class WorkermanServer {
 	}
 
 	public function setOptions($options = []) {
-
+		$default['socket']['backlog'] = Worker::DEFAULT_BACKLOG;
+		$this->options=$options+$default;
 	}
 
 	public function run($host, $port, $options = []) {
-		$this->server=new Worker("http://$host:$port",$options);
+		$this->setOptions($options);
+		$this->server=new Worker("http://$host:$port",$this->options);
 		$this->server->count=$this->wCount??4;
 		$this->server->onMessage =function($connection,$datas){
 			$this->handle($connection,$datas);
