@@ -30,7 +30,7 @@ class WorkermanHttp extends AbstractHttp {
 		return $this->datas;
 	}
 
-	public function header($key, $value, bool $replace = false, int $http_response_code = null) {
+	public function header($key, $value, bool $replace = true, int $http_response_code = null) {
 		$this->headers[$key] = $value;
 		if ($http_response_code != null) {
 			$this->responseCode = $http_response_code;
