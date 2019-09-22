@@ -121,9 +121,10 @@ class WorkermanServer {
 
 	protected function handle(ConnectionInterface $connection,$datas) {
 		$_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
+		Http::header('Date: '.gmdate('D, d M Y H:i:s').' GMT');
 		$_GET['c'] = '';
 		$uri = \ltrim(\urldecode(\parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
-		if ($uri == null || ! ($fe=\file_exists($this->basedir . '/../' . $uri))) {
+		if (($uri!='favicon.ico') && ($uri == null || ! ($fe=\file_exists($this->basedir . '/../' . $uri)))) {
 			$_GET['c'] = $uri;
 		} else {
 			if($fe){
