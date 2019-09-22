@@ -128,7 +128,11 @@ class WorkermanServer {
 		\ob_start();
 		\Ubiquity\controllers\Startup::setHttpInstance($this->httpInstance);
 		\Ubiquity\controllers\Startup::forward($request->get['c']);
-		$connection->send(\ob_get_clean());
+		if($_SERVER['HTTP_CONNECTION']=='Keep-Alive'){
+			$connection->send(\ob_get_clean());
+		}else{
+			$connection->close(\ob_get_clean());
+		}
 	}
 	/**
 	 * Sets the worker count
