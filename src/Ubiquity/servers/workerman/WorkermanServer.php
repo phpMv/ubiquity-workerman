@@ -111,7 +111,7 @@ class WorkermanServer {
 	
 
 	protected function handle(ConnectionInterface $connection,$datas) {
-		Http::header('Date: '.\gmdate('D, d M Y H:i:s').' GMT');
+		$_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
 		$request->get['c'] = '';
 		$uri = \ltrim(\urldecode(\parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
 		if ($uri == null || ! \file_exists($this->basedir . '/../' . $uri)) {
