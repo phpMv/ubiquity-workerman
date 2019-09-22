@@ -35,7 +35,7 @@ class WorkermanHttp extends AbstractHttp {
 		if ($http_response_code != null) {
 			$this->responseCode = $http_response_code;
 		}
-		Http::header($key.' :'.$value,$replace,$http_response_code);
+		Http::header($key.':'.$value,$replace,$http_response_code);
 	}
 
 	/**
