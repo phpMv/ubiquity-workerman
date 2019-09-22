@@ -97,8 +97,7 @@ class WorkermanServer {
 	}
 
 	public function setOptions($options = []) {
-		$default['socket']['backlog'] = Worker::DEFAULT_BACKLOG;
-		$this->options=$options+$default;
+		$this->options=$options;
 	}
 
 	public function run($host, $port, $options = []) {
