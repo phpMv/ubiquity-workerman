@@ -104,7 +104,7 @@ class WorkermanServer {
 		$this->setOptions($options);
 		$this->server=new Worker("http://$host:$port",$this->options);
 		$this->server->count=$this->wCount??4;
-		$this->server->onMessage =static function($connection,$datas){
+		$this->server->onMessage =function($connection,$datas){
 			$this->handle($connection,$datas);
 		};
 		Worker::runAll();
