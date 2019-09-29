@@ -128,10 +128,10 @@ class WorkermanServer {
 			$_GET['c'] = $uri;
 		} else {
 			if($fe){
-				Http::header('Content-Type', HttpCache::$header['accept'] ?? 'text/html; charset=utf-8');
+				Http::header('Content-Type: '. HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8',true);
 				$connection->send(\file_get_contents($this->basedir . '/../' . $uri));
 			}else{
-				Http::header('Content-Type', HttpCache::$header['accept'] ?? 'text/html; charset=utf-8',404);
+				Http::header('Content-Type: '. HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8',true,404);
 				$connection->send($uri.' not found!');
 			}
 			return;
@@ -140,11 +140,7 @@ class WorkermanServer {
 		$this->httpInstance->setDatas($datas);
 		\ob_start();
 		\Ubiquity\controllers\Startup::forward($_GET['c']);
-		if($_SERVER['HTTP_CONNECTION']=='Keep-Alive'){
-			$connection->send(\ob_get_clean());
-		}else{
-			$connection->close(\ob_get_clean());
-		}
+		$connection->send(\ob_get_clean());
 	}
 	/**
 	 * Sets the worker count
@@ -154,8 +150,8 @@ class WorkermanServer {
 		$this->wCount = $wCount;
 	}
 	
-	public function setDefaultCount(){
-		$this->wCount= (int) \shell_exec('nproc') ??4;
+	public function setDefaultCount($multi=1){
+		$this->wCount= ((int) \shell_exec('nproc') ??4)*$multi;
 	}
 	
 	public function daemonize($value=true){
