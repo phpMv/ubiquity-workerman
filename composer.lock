@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "631e987e1a028be7f48c6dc1e9be745f",
+    "content-hash": "97b42700b888b8c8ae38c6a96ae3ef06",
     "packages": [
         {
             "name": "workerman/workerman",
-            "version": "v3.5.22",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "488f108f9e446f31bac4d689bb9f9fe3705862cf"
+                "reference": "36f53c47e289b30fb9b4e6cf1f929a278a1ea7a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/488f108f9e446f31bac4d689bb9f9fe3705862cf",
-                "reference": "488f108f9e446f31bac4d689bb9f9fe3705862cf",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/36f53c47e289b30fb9b4e6cf1f929a278a1ea7a8",
+                "reference": "36f53c47e289b30fb9b4e6cf1f929a278a1ea7a8",
                 "shasum": ""
             },
             "require": {
@@ -50,15 +50,19 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2019-09-06T03:42:47+00:00"
+            "time": "2019-10-03T11:18:57+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "workerman/workerman": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">7.0"
+    },
     "platform-dev": []
 }

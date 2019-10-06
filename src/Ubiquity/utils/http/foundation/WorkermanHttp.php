@@ -56,10 +56,8 @@ class WorkermanHttp extends AbstractHttp {
 			if (PHP_SAPI != 'cli') {
 				return \http_response_code($responseCode);
 			}
-			if (isset(HttpCache::$codes[$responseCode])) {
-				HttpCache::$header['Http-Code'] = "HTTP/1.1 $responseCode " . HttpCache::$codes[$responseCode];
-				return true;
-			}
+			Http::responseCode($responseCode);
+			return $responseCode;
 		}
 		return false;
 	}
