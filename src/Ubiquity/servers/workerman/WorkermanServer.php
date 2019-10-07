@@ -29,9 +29,9 @@ class WorkermanServer {
 
 	private $options;
 	
-	private $events=[];
-	
 	private $wCount;
+	
+	public $onWorkerStart;
 
 	/**
 	 *
@@ -76,12 +76,6 @@ class WorkermanServer {
 		$http->set($this->options);
 	}
 	
-	private function addEvents($http){
-		foreach ($this->events as $event=>$callback) {
-			$http->on($event,$callback);
-		}
-	}
-
 	public function init($config, $basedir) {
 		$this->config = $config;
 		$this->basedir = $basedir;
@@ -112,6 +106,9 @@ class WorkermanServer {
 		$this->setOptions($options);
 		$this->server=new Worker("http://$host:$port",$this->options);
 		$this->server->count=$this->wCount??4;
+		if(isset($this->onWorkerStart)){
+			$this->server->onWorkerStart=$this->onWorkerStart;
+		}
 		$this->server->onMessage =function($connection,$datas){
 			return $this->handle($connection,$datas);
 		};
