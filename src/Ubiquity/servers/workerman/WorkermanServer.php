@@ -113,15 +113,15 @@ class WorkermanServer {
 		$this->server=new Worker("http://$host:$port",$this->options);
 		$this->server->count=$this->wCount??4;
 		$this->server->onMessage =function($connection,$datas){
-			$this->handle($connection,$datas);
+			return $this->handle($connection,$datas);
 		};
 		Worker::runAll();
 	}
 	
 
 	protected function handle(ConnectionInterface $connection,$datas) {
-		$_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
-		Http::header('Date: '.gmdate('D, d M Y H:i:s').' GMT');
+		//$_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
+		//Http::header('Date: '.gmdate('D, d M Y H:i:s').' GMT');
 		$_GET['c'] = '';
 		$uri = \ltrim(\urldecode(\parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)), '/');
 		if (($uri == null || ! ($fe=\file_exists($this->basedir . '/../' . $uri))) && ($uri!='favicon.ico')) {
@@ -129,10 +129,10 @@ class WorkermanServer {
 		} else {
 			if($fe){
 				Http::header('Content-Type: '. HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8',true);
-				$connection->send(\file_get_contents($this->basedir . '/../' . $uri));
+				return $connection->send(\file_get_contents($this->basedir . '/../' . $uri));
 			}else{
 				Http::header('Content-Type: '. HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8',true,404);
-				$connection->send($uri.' not found!');
+				return $connection->send($uri.' not found!');
 			}
 			return;
 		}
@@ -140,7 +140,7 @@ class WorkermanServer {
 		$this->httpInstance->setDatas($datas);
 		\ob_start();
 		\Ubiquity\controllers\Startup::forward($_GET['c']);
-		$connection->send(\ob_get_clean());
+		return $connection->send(\ob_get_clean());
 	}
 	/**
 	 * Sets the worker count
