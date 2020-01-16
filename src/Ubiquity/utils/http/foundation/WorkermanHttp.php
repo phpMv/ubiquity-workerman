@@ -11,22 +11,20 @@ use Workerman\Protocols\HttpCache;
  *
  * @author jcheron <myaddressmail@gmail.com>
  * @version 1.0.0
- *         
  */
 class WorkermanHttp extends AbstractHttp {
 
 	private $headers = [];
 
 	private $responseCode = 200;
-	
-	private $datas;
 
+	private $datas;
 
 	public function getAllHeaders() {
 		return $this->headers;
 	}
-	
-	public function setDatas($datas){
+
+	public function setDatas($datas) {
 		return $this->datas;
 	}
 
@@ -35,7 +33,7 @@ class WorkermanHttp extends AbstractHttp {
 		if ($http_response_code != null) {
 			$this->responseCode = $http_response_code;
 		}
-		Http::header($key.':'.$value,$replace,$http_response_code);
+		Http::header($key . ':' . $value, $replace, $http_response_code);
 	}
 
 	/**
@@ -53,7 +51,7 @@ class WorkermanHttp extends AbstractHttp {
 	public function setResponseCode($responseCode) {
 		if ($responseCode != null) {
 			$this->responseCode = $responseCode;
-			if (PHP_SAPI != 'cli') {
+			if (\PHP_SAPI != 'cli') {
 				return \http_response_code($responseCode);
 			}
 			Http::responseCode($responseCode);
