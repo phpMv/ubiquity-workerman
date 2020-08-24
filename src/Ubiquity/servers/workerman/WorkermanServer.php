@@ -125,10 +125,10 @@ class WorkermanServer {
 			$_GET['c'] = $uri;
 		} else {
 			if ($fe) {
-				Http::header('Content-Type: ' . HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8', true);
+				Http::header('Content-Type: ' . (HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8'), true);
 				return $connection->send(\file_get_contents($this->basedir . '/../' . $uri));
 			} else {
-				Http::header('Content-Type: ' . HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8', true, 404);
+				Http::header('Content-Type: ' . (HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8'), true, 404);
 				return $connection->send($uri . ' not found!');
 			}
 			return;
