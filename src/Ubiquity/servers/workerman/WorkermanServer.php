@@ -120,7 +120,7 @@ class WorkermanServer {
 		// $_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
 		Http::header('Date: ' . \gmdate('D, d M Y H:i:s') . ' GMT');
 		$_GET['c'] = '';
-		$uriInfos = \Ubiquity\utils\http\URequest::parseURI($this->basedir);
+		$uriInfos = \Ubiquity\utils\http\URequest::parseURI($_SERVER['REQUEST_URI'], $this->basedir);
 		$uri = $uriInfos['uri'];
 		if ($uriInfos['isAction']) {
 			$_GET['c'] = $uri;
