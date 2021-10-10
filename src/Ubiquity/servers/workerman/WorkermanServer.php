@@ -122,7 +122,7 @@ class WorkermanServer {
 		// $_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
 		Http::header('Date: ' . \gmdate('D, d M Y H:i:s') . ' GMT');
 		$_GET['c'] = '';
-		$uriInfos = (self::$uriInfos[$_SERVER['REQUEST_URI']] ??= self::parseURI($_SERVER['REQUEST_URI']));
+		$uriInfos = (self::$uriInfos[$_SERVER['REQUEST_URI']] ??= self::parseURI($_SERVER['REQUEST_URI'], $this->basedir));
 		$uri = $uriInfos['uri'];
 		if ($uriInfos['isAction']) {
 			$_GET['c'] = $uri;
@@ -143,9 +143,9 @@ class WorkermanServer {
 		return $connection->send(\ob_get_clean());
 	}
 
-	protected static function parseURI($requestURI) {
+	protected static function parseURI($requestURI, $basedir) {
 		$uri = \ltrim(\urldecode(\parse_url($requestURI, PHP_URL_PATH)), '/');
-		$isAction = ($uri == null || ! ($fe = \file_exists($this->basedir . '/../' . $uri))) && ($uri != 'favicon.ico');
+		$isAction = ($uri == null || ! ($fe = \file_exists($basedir . '/../' . $uri))) && ($uri != 'favicon.ico');
 		return [
 			'uri' => $uri,
 			'isAction' => $isAction,
