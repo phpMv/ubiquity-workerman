@@ -10,7 +10,7 @@ use Workerman\Protocols\HttpCache;
  * This class is part of Ubiquity
  *
  * @author jcheron <myaddressmail@gmail.com>
- * @version 1.0.0
+ * @version 1.0.1
  */
 class WorkermanHttp extends AbstractHttp {
 
@@ -28,9 +28,9 @@ class WorkermanHttp extends AbstractHttp {
 		return $this->datas;
 	}
 
-	public function header($key, $value, bool $replace = true, int $http_response_code = null) {
+	public function header($key, $value, bool $replace = true, int $http_response_code = 0) {
 		$this->headers[$key] = $value;
-		if ($http_response_code != null) {
+		if ($http_response_code != 0) {
 			$this->responseCode = $http_response_code;
 		}
 		Http::header($key . ':' . $value, $replace, $http_response_code);
