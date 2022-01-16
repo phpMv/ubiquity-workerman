@@ -1,6 +1,7 @@
 <?php
 namespace Ubiquity\servers\workerman;
 
+use Ubiquity\utils\base\MimeType;
 use Workerman\Protocols\Http;
 use Workerman\Protocols\HttpCache;
 use Workerman\Worker;
@@ -12,7 +13,7 @@ use Ubiquity\utils\http\foundation\WorkermanHttp;
  * This class is part of Ubiquity
  *
  * @author jcheron <myaddressmail@gmail.com>
- * @version 1.0.2
+ * @version 1.0.3
  */
 class WorkermanServer {
 
@@ -126,10 +127,11 @@ class WorkermanServer {
 			$_GET['c'] = $uri;
 		} else {
 			if ($uriInfos['file']) {
-				Http::header('Content-Type: ' . (HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8'), true);
+				$mime = MimeType::getFileMimeType(realpath($uri));
+				Http::header('Content-Type: ' . $mime . '; charset=utf-8', true);
 				return $connection->send(\file_get_contents($this->basedir . '/../' . $uri));
 			} else {
-				Http::header('Content-Type: ' . (HttpCache::$header['Accept'] ?? 'text/html; charset=utf-8'), true, 404);
+				Http::header('Content-Type: text/plain; charset=utf-8', true, 404);
 				return $connection->send($uri . ' not found!');
 			}
 			return;
