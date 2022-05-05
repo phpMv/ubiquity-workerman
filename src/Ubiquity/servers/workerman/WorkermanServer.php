@@ -13,7 +13,7 @@ use Ubiquity\utils\http\foundation\WorkermanHttp;
  * This class is part of Ubiquity
  *
  * @author jcheron <myaddressmail@gmail.com>
- * @version 1.0.3
+ * @version 1.0.4
  */
 class WorkermanServer {
 
@@ -118,7 +118,6 @@ class WorkermanServer {
 	}
 
 	protected function handle(ConnectionInterface $connection, $datas) {
-		// $_REQUEST['REQUEST_TIME_FLOAT']=\microtime(true);
 		Http::header('Date: ' . \gmdate('D, d M Y H:i:s') . ' GMT');
 		$_GET['c'] = '';
 		$uriInfos = \Ubiquity\utils\http\URequest::parseURI($_SERVER['REQUEST_URI'], $this->basedir);
@@ -127,9 +126,10 @@ class WorkermanServer {
 			$_GET['c'] = $uri;
 		} else {
 			if ($uriInfos['file']) {
-				$mime = MimeType::getFileMimeType(realpath($uri));
+				$file=$this->basedir .'/'. $uri;
+				$mime = MimeType::getFileMimeType($file);
 				Http::header('Content-Type: ' . $mime . '; charset=utf-8', true);
-				return $connection->send(\file_get_contents($this->basedir . '/../' . $uri));
+				return $connection->send(\file_get_contents($file));
 			} else {
 				Http::header('Content-Type: text/plain; charset=utf-8', true, 404);
 				return $connection->send($uri . ' not found!');
