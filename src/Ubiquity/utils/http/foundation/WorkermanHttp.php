@@ -5,7 +5,7 @@ use Workerman\Protocols\Http;
 use Workerman\Protocols\HttpCache;
 
 /**
- * Http instance for Swoole.
+ * Http instance for Workerman.
  * Ubiquity\utils\http\foundation$WorkermanHttp
  * This class is part of Ubiquity
  *
