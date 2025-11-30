@@ -11,7 +11,7 @@
 		"workerman"
 	],
 	"require" : {
-		"php" : ">=7.4",
+		"php" : ">=8.1",
 		"workerman/workerman": "~3.5"
 	},
 	"license" : "Apache-2.0",

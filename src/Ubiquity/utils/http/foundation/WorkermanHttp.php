@@ -60,7 +60,7 @@ class WorkermanHttp extends AbstractHttp {
 		return false;
 	}
 
-	public function headersSent(string &$file = null, int &$line = null) {
+	public function headersSent(?string &$file = null, ?int &$line = null) {
 		return \headers_sent($file, $line);
 	}
 
